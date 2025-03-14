@@ -3,6 +3,7 @@ import { addProductsValidator } from "../validators/product.js";
 
 export const addProducts = async (req, res, next) => {
  try {
+    
    // validate product info
    const {error, value} = addProductsValidator.validate({
     ...req.body,
@@ -22,8 +23,11 @@ export const addProducts = async (req, res, next) => {
 
 export const getProducts = async (req, res, next) => {
   try {
+    const {filter = "{}", sort = '{}'} = req.query;
     // fetch products from database
-    const result = await ProductModel.find();
+    const result = await ProductModel
+    .find(JSON.parse(filter))
+    .sort(JSON.parse(sort));
     // return response
     res.json(result);
   } catch (error) {
