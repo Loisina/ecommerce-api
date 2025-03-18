@@ -1,6 +1,7 @@
 import express from 'express';
 import productsRouter from './routes/products.js';
 import mongoose from 'mongoose';
+import userRouter from './routes/users.js';
 
 // make database 
 await mongoose.connect(process.env.MONGO_URI);
@@ -13,7 +14,7 @@ app.use (express.json())
 
 // use routes
 app.use(productsRouter);
-
+app.use (userRouter);
 
 
 // Listen for incoming request
