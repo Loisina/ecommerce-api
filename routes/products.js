@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { addProducts, countProducts, deleteProduct, getProducts, updateProduct } from "../controllers/products.js";
 import { localUpload, productImageUpload, productPicturesUpload, remoteUpload } from "../middlewares/upload.js";
-import { isAuthenticated } from "../middlewares/auth.js";
+import { isAuthenticated, isAuthorized } from "../middlewares/auth.js";
 
 // Create product router
 
@@ -11,6 +11,7 @@ const productsRouter = Router();
 
 productsRouter.post (
   '/products',isAuthenticated,
+  isAuthorized(["superadmin", "admin"]),
   productImageUpload.single('image'),
   // productPicturesUpload.array("pictures",3),
  addProducts);
