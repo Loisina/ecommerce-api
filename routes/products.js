@@ -11,8 +11,8 @@ const productsRouter = Router();
 
 productsRouter.post (
   '/products',isAuthenticated,
-  // productImageUpload.single('image'),
-  productPicturesUpload.array("pictures",3),
+  productImageUpload.single('image'),
+  // productPicturesUpload.array("pictures",3),
  addProducts);
 
 productsRouter.get ('/products', getProducts);
@@ -22,6 +22,12 @@ productsRouter.get ('/products/count', countProducts );
 productsRouter.patch ('/products/:id',isAuthenticated, updateProduct);
 
 productsRouter.delete('/products/:id',isAuthenticated, deleteProduct);
+
+productsRouter.put ('/products/:id',
+  isAuthenticated,
+  productImageUpload.single('image'),
+   updateProduct);
+
 
 // export router
 

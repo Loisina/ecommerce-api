@@ -15,11 +15,16 @@ export const addProducts = async (req, res, next) => {
    if (error){
     return res.status(422).json(error)
    }
+  //  
    // save product info in database
    const result = await ProductModel.create(value);
    // return response
    res.status(201).json(result);
  } catch (error) {
+  if (error.name === "MongooseError") {
+    return res.status(409).json(error.message)
+  }
+  
     next(error);
  }
 }
@@ -36,6 +41,15 @@ export const getProducts = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+}
+
+export const updateProducts = async (req, res, next) =>{
+  // validate incoming request body 
+  // perform model replace operation
+  const result = await ProductModel.findOneAndReplace(
+    {_id : req.params},ref.body, {new: true}
+    )
+// return response
 }
 
 export const countProducts = (req, res) => {
